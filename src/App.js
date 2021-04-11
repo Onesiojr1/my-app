@@ -1,29 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './App.css';
 
 
 function App() {
 
+  
   const [carrinho, setCarrinho] = useState([]);
-
+  
   const [produtos, setProdutos] = useState([
-    {
-      nome: "Smash Supremo",
-      preco: 19.90,
-      img: "/img/Smash.png"
-    },
-    {
-      nome: "Cheddar Melt",
-      preco: 17.90,
-      img: "/img/Smash.png"
-    },
-    {
-      nome: "Caaaaaaaa",
-      preco: 15.90,
-      img: "/img/Smash.png"
-    }
+
   ]);
 
+  useEffect(() => {
+    fetch("http://localhost:9000/produtos")
+        .then(res => res.json())
+        .then(res => setProdutos([...res]));
+  }, [])
+  
   const ordenarProdutos = (produtos) => {
     setProdutos([...produtos.sort((a,b) => a.preco - b.preco )])
   }
@@ -48,7 +41,7 @@ function App() {
         {produtos.slice(0,3).map(produto => (
           <div>
             <h3>{produto.nome}</h3>
-            <img src={produto.img} alt="Smash"></img>
+            <img src={"http://localhost:9000"+produto.img} alt="Smash"></img>
             <h4>{produto.preco.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</h4>
             <div onClick={() => adicinarCarrinho(produtos)} >adicionar ao carrinho</div>
           </div>
@@ -61,7 +54,7 @@ function App() {
     {produtos.slice(3, produtos.length).map(produto => (
           <div>
             <h3>{produto.nome}</h3>
-            <img src={produto.img} alt="Smash"></img>
+            <img src={"http://localhost:9000"+produto.img} alt="Smash"></img>
             <h4>{produto.preco.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</h4>
             <div onClick={() => adicinarCarrinho(produtos)} >adicionar ao carrinho</div>
           </div>
