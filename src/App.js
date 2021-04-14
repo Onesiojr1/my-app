@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import './App.css';
+import { BrowserRouter as Router, Route} from 'react-router-dom';
+import Carrinho from './Carrinho';
+import Home from './Home';
+import Header from './Header';
 
 
 function App() {
@@ -41,77 +45,13 @@ function App() {
     setTermoBusca(e.target.value);
   } 
 
-  const itemProduto = (produto) => {
-    return (
-      <div>
-        <h3>{produto.nome}</h3>
-        <img src={"http://localhost:9000" + produto.img} alt={produto.nome}></img>
-        <h4>{produto.preco.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</h4>
-        <div onClick={() => adicinarCarrinho(produto)} >adicionar ao carrinho</div>
-      </div>
-    )
-  }
-
   return <div className="App">
-    <header className="Cabecalho">
-      <img src="..\img\logo2.jpg" alt="Logo"></img>
-      <div className="pesquisa">
-        <input type="text" onChange={(e) => procuraProduto(e)} />
-        <button> Pesquisar</button>
-      </div>
-      <button> Carrinho ({carrinho.length})</button>
-    </header>
-
-    { termoBusca === "" && (
-      <div className="Destaque">
-        <h1>Destaques</h1>
-        <div className="Produtos">
-          {produtos.slice(0, 3).map(produto => (
-            <div>
-              <h3>{produto.nome}</h3>
-              <img src={"http://localhost:9000" + produto.img} alt={produto.nome}></img>
-              <p>{produto.descricao}</p>
-              <h4>{produto.preco.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</h4>
-              <div onClick={() => adicinarCarrinho(produto)} >adicionar ao carrinho</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    )}
-    
-    <div className="lista">
-      <select value={ordenacao} onChange={(e) => handleSelect(e)}>
-        <option value={'crescente'}>Preço crescente</option>
-        <option value={'decrescente'}>Preço decrescente</option>
-      </select>
-      <div className="produtos"> 
-        { termoBusca === "" 
-          ? produtos.slice(3, produtos.length).map(itemProduto)
-          : produtos.filter((produto) => {
-              const busca = termoBusca.toLowerCase()
-              const nome = produto.nome.toLowerCase()
-              const categoria = produto.categoria.toLowerCase()
-              return nome.includes(busca) || categoria.includes(busca)
-            }).map(itemProduto)
-        }
-      </div>
+    <Router>
+    <Header procuraProduto={procuraProduto} carrinho={carrinho} />
+    <Route exact path='/Carrinho' render={(props) => <Carrinho {...props} carrinho={carrinho} removerCarrinho={removerCarrinho} />}></Route>
+    <Route exact path='/' render={(props) => <Home handleSelect={handleSelect} produtos={produtos} ordenacao={ordenacao}  termoBusca={termoBusca} adicinarCarrinho={adicinarCarrinho} />}></Route>
+    </Router>
     </div>
-
-    <div className="Carrinho">
-      <h2>Carrinho</h2>
-      <div className="Produtos">
-        {carrinho.map(produto => (
-          <div>
-            <h3>{produto.nome}</h3>
-            <img src={"http://localhost:9000" + produto.img} alt={produto.nome}></img>
-            <p>{produto.descricao}</p>
-            <h4>{produto.preco.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</h4>
-            <div onClick={() => removerCarrinho(produto)} >Remover</div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </div>
 }
 
 export default App;
