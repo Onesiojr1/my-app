@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route} from 'react-router-dom';
 import Carrinho from './Carrinho';
 import Home from './Home';
 import Header from './Header';
+import Finalizado from "./Finalizado";
 
 
 function App() {
@@ -45,11 +46,23 @@ function App() {
     setTermoBusca(e.target.value);
   } 
 
+  const generateOrderCode = () => {
+    const randomNumber = Math.floor(Math.random() * 10000);
+    const random = randomNumber.toString().padStart(5, "0");
+    const now = new Date();
+    const year = now.getFullYear().toString();
+    const month = now.getMonth().toString().padStart(2, "0");
+    const day = now.getDay().toString().padStart(2, "0");
+
+    return `${year}${month}${day}${random}`;
+  }
+
   return <div className="App">
     <Router>
     <Header procuraProduto={procuraProduto} carrinho={carrinho} />
-    <Route exact path='/Carrinho' render={(props) => <Carrinho {...props} carrinho={carrinho} removerCarrinho={removerCarrinho} />}></Route>
+    <Route exact path='/Carrinho' render={(props) => <Carrinho {...props} carrinho={carrinho} removerCarrinho={removerCarrinho} setCarrinho={setCarrinho} />}></Route>
     <Route exact path='/' render={(props) => <Home handleSelect={handleSelect} produtos={produtos} ordenacao={ordenacao}  termoBusca={termoBusca} adicinarCarrinho={adicinarCarrinho} />}></Route>
+    <Route exact path='/Checkout' render={(props) => <Finalizado generateOrderCode= {generateOrderCode} />}></Route>
     </Router>
     </div>
 }

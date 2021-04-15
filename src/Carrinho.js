@@ -1,11 +1,27 @@
 import React from "react";
+import { Link } from 'react-router-dom';
+
 
 const Carrinho = (props) => {
-  console.log(props)
-  // return <p>Aqui</p>
   const removerCarrinho = (produto) => {
     props.removerCarrinho(produto);
   }
+
+  const total = () => {
+    const valor = props.carrinho.reduce((total, produtoAtual) => total + produtoAtual.preco, 0);
+    const valorTotal = valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+
+    return valorTotal;
+  }
+
+  const finalizar = () => {
+    //Remover Carrinho
+    // const pedido = props.carrinho;
+    props.setCarrinho([]);
+    // const codPedido = generateOrderCode();
+    // console.log(codPedido);
+  }
+
   return <div>
     <h2>Carrinho</h2>
     <div className="Carrinho">
@@ -20,10 +36,12 @@ const Carrinho = (props) => {
           </div>
         </div>
       ))}
+      <p>{total()}</p>
     </div>
+    
 
 
-    <div className="Finalizar">Finalizar Compra</div>
+    <Link to="/checkout"><div className="Finalizar" onClick={() => finalizar()}>Finalizar Compra</div></Link>
   </div>
 }
 
