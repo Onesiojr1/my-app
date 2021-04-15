@@ -68,3 +68,12 @@
 .lista img {
   width: 150px;
 }
+
+.Carrinho {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.Carrinho img {
+  width: 150px;
+}
