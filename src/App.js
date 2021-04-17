@@ -13,6 +13,7 @@ function App() {
   const [produtos, setProdutos] = useState([]);
   const [ordenacao, setOrdenacao] = useState('crescente');
   const [termoBusca, setTermoBusca] = useState("");
+  const [pedido, setPedido] = useState([]);
 
 
   useEffect(() => {
@@ -57,12 +58,18 @@ function App() {
     return `${year}${month}${day}${random}`;
   }
 
+  const finalizar = () => {
+    //Remover Carrinho
+   setPedido(carrinho);
+   setCarrinho([]);
+  }
+
   return <div className="App">
     <Router>
     <Header procuraProduto={procuraProduto} carrinho={carrinho} />
-    <Route exact path='/Carrinho' render={(props) => <Carrinho {...props} carrinho={carrinho} removerCarrinho={removerCarrinho} setCarrinho={setCarrinho} />}></Route>
+    <Route exact path='/Carrinho' render={(props) => <Carrinho {...props} carrinho={carrinho} removerCarrinho={removerCarrinho} setCarrinho={setCarrinho} finalizar={finalizar}  />}></Route>
     <Route exact path='/' render={(props) => <Home handleSelect={handleSelect} produtos={produtos} ordenacao={ordenacao}  termoBusca={termoBusca} adicinarCarrinho={adicinarCarrinho} />}></Route>
-    <Route exact path='/Checkout' render={(props) => <Finalizado generateOrderCode= {generateOrderCode} />}></Route>
+    <Route exact path='/Checkout' render={(props) => <Finalizado generateOrderCode= {generateOrderCode} carrinho={carrinho} pedido={pedido}   />}></Route>
     </Router>
     </div>
 }

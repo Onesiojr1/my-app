@@ -14,14 +14,6 @@ const Carrinho = (props) => {
     return valorTotal;
   }
 
-  const finalizar = () => {
-    //Remover Carrinho
-    // const pedido = props.carrinho;
-    props.setCarrinho([]);
-    // const codPedido = generateOrderCode();
-    // console.log(codPedido);
-  }
-
   return <div>
     <h2>Carrinho</h2>
     <div className="Carrinho">
@@ -41,7 +33,7 @@ const Carrinho = (props) => {
     
 
 
-    <Link to="/checkout"><div className="Finalizar" onClick={() => finalizar()}>Finalizar Compra</div></Link>
+    <Link to="/checkout"><div className="Finalizar" onClick={() => props.finalizar()}>Finalizar Compra</div></Link>
   </div>
 }
 
