@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import './App.css';
-import { BrowserRouter as Router, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Carrinho from './Carrinho';
 import Home from './Home';
 import Header from './Header';
 import Finalizado from "./Finalizado";
-
+import Admin from "./Admin";
+import NovoProduto from "./NovoProduto"
 
 function App() {
 
@@ -31,7 +32,7 @@ function App() {
     }
 
     if (order === 'decrescente') {
-      setProdutos([...produtos.sort((a, b) =>b.preco - a.preco )]);
+      setProdutos([...produtos.sort((a, b) => b.preco - a.preco)]);
     }
   }
 
@@ -45,7 +46,7 @@ function App() {
 
   const procuraProduto = (e) => {
     setTermoBusca(e.target.value);
-  } 
+  }
 
   const generateOrderCode = () => {
     const randomNumber = Math.floor(Math.random() * 10000);
@@ -60,18 +61,32 @@ function App() {
 
   const finalizar = () => {
     //Remover Carrinho
-   setPedido(carrinho);
-   setCarrinho([]);
+    setPedido(carrinho);
+    setCarrinho([]);
+  }
+
+  async function remove(id) {
+    await fetch('http://localhost:9000/produtos/delete/' + id, {
+      method: 'DELETE'
+    }).then(() => {
+      setProdutos([...produtos.filter(produtos => produtos._id !== id)]);
+      console.log('removed');
+    }).catch(err => {
+      console.error(err)
+    });
+
   }
 
   return <div className="App">
     <Router>
-    <Header procuraProduto={procuraProduto} carrinho={carrinho} />
-    <Route exact path='/Carrinho' render={(props) => <Carrinho {...props} carrinho={carrinho} removerCarrinho={removerCarrinho} setCarrinho={setCarrinho} finalizar={finalizar}  />}></Route>
-    <Route exact path='/' render={(props) => <Home handleSelect={handleSelect} produtos={produtos} ordenacao={ordenacao}  termoBusca={termoBusca} adicinarCarrinho={adicinarCarrinho} />}></Route>
-    <Route exact path='/Checkout' render={(props) => <Finalizado generateOrderCode= {generateOrderCode} carrinho={carrinho} pedido={pedido}   />}></Route>
+      <Header procuraProduto={procuraProduto} carrinho={carrinho} />
+      <Route exact path='/Carrinho' render={(props) => <Carrinho {...props} carrinho={carrinho} removerCarrinho={removerCarrinho} setCarrinho={setCarrinho} finalizar={finalizar} />}></Route>
+      <Route exact path='/' render={(props) => <Home handleSelect={handleSelect} produtos={produtos} ordenacao={ordenacao} termoBusca={termoBusca} adicinarCarrinho={adicinarCarrinho} />}></Route>
+      <Route exact path='/Checkout' render={(props) => <Finalizado generateOrderCode={generateOrderCode} carrinho={carrinho} pedido={pedido} />}></Route>
+      <Route exact path='/Admin' render={(props) => <Admin produtos={produtos} remove={remove} />}></Route>
+      <Route exact path='/NovoProduto' render={(props) => <NovoProduto produtos={produtos} setProdutos={setProdutos} />}></Route>
     </Router>
-    </div>
+  </div>
 }
 
 export default App;
