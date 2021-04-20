@@ -7,6 +7,7 @@ import Header from './Header';
 import Finalizado from "./Finalizado";
 import Admin from "./Admin";
 import NovoProduto from "./NovoProduto"
+import AlterarProduto from "./AlterarProduto";
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
   const [ordenacao, setOrdenacao] = useState('crescente');
   const [termoBusca, setTermoBusca] = useState("");
   const [pedido, setPedido] = useState([]);
+  const [atualizaProd, setAtualizaProd] =useState([]);
 
 
   useEffect(() => {
@@ -77,14 +79,20 @@ function App() {
 
   }
 
+  // const teste = null;
+  function atualizarProduto(produto) {
+    setAtualizaProd(produto);
+  }
+
   return <div className="App">
     <Router>
       <Header procuraProduto={procuraProduto} carrinho={carrinho} />
       <Route exact path='/Carrinho' render={(props) => <Carrinho {...props} carrinho={carrinho} removerCarrinho={removerCarrinho} setCarrinho={setCarrinho} finalizar={finalizar} />}></Route>
       <Route exact path='/' render={(props) => <Home handleSelect={handleSelect} produtos={produtos} ordenacao={ordenacao} termoBusca={termoBusca} adicinarCarrinho={adicinarCarrinho} />}></Route>
       <Route exact path='/Checkout' render={(props) => <Finalizado generateOrderCode={generateOrderCode} carrinho={carrinho} pedido={pedido} />}></Route>
-      <Route exact path='/Admin' render={(props) => <Admin produtos={produtos} remove={remove} />}></Route>
+      <Route exact path='/Admin' render={(props) => <Admin produtos={produtos} remove={remove} atualizarProduto={atualizarProduto} />}></Route>
       <Route exact path='/NovoProduto' render={(props) => <NovoProduto produtos={produtos} setProdutos={setProdutos} />}></Route>
+      <Route path='/Update/:id' render={(props) => <AlterarProduto produtos={produtos} setProdutos={setProdutos} atualizaProd={atualizaProd}  />} />
     </Router>
   </div>
 }

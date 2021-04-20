@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
-const NovoProduto = (props) => {
-
+const AlterarProduto = (props) => {
     const [form, setForm] = useState({});
     const [formImg, setFormImg] = useState();
     const [errors, setErrors] = useState({});
@@ -27,9 +26,6 @@ const NovoProduto = (props) => {
             errors.preco = "*Preencha um Preço válido"
         }
 
-        if (!formImg) {
-            errors.img = "*Preencha com uma imagem válida"
-        }
 
         if (!form.categoria) {
             errors.categoria = "*Preencha com uma categoria válida"
@@ -46,27 +42,28 @@ const NovoProduto = (props) => {
         event.preventDefault();
         setErrors(validate(form))
         if (Object.entries(errors).length === 0) {
-            console.log(Object.entries(errors).length)
             sendData();
         }
     }
 
     async function sendData() {
-        // 🥵
         try {
-            const formData = new FormData()
-            formData.append('img', formImg)
+            const formData = new FormData();
+            if (formImg != null) { formData.append('img', formImg) } else {formData.append('img', null)}
+
             for (const [chave, valor] of Object.entries(form)) {
                 formData.append(chave, valor)
             }
-            const response = await fetch('http://localhost:9000/produtos', {
-                method: 'POST',
+            console.log(formData);
+            // const response = 
+            await fetch('http://localhost:9000/produtos/update/' + props.atualizaProd._id, {
+                method: 'PUT',
                 body: formData
             })
 
-            const novoProduto = await response.json()
+            // await response.json()
             setForm({ formSent: true, nome: '', preco: '', descricao: '', img: '', categoria: '' });
-            props.setProdutos([...props.produtos, novoProduto ]);
+            props.setProdutos([...props.produtos]);
         } catch (error) {
             console.log(error);
         }
@@ -78,15 +75,15 @@ const NovoProduto = (props) => {
             {!form.formSent ?
                 <form className="formulario" onSubmit={e => handleSubmit(e)}>
                     <label for="nome">Nome</label>
-                    <input name="nome" type="text" id="nome" onChange={e => handleChange(e)} />
+                    <input name="nome" type="text" id="nome" placeholder={props.atualizaProd.nome} onChange={e => handleChange(e)} />
                     {errors.nome && <p className="error-input">{errors.nome}</p>}
 
                     <label for="preco">Preço</label>
-                    <input name="preco" type="number" id="preco" onChange={e => handleChange(e)} />
+                    <input name="preco" type="number" id="preco" placeholder={props.atualizaProd.preco} onChange={e => handleChange(e)} />
                     {errors.preco && <p className="error-input">{errors.preco}</p>}
 
                     <label for="descricao">Descrição</label>
-                    <input name="descricao" type="text" id="descricao" onChange={e => handleChange(e)} />
+                    <input name="descricao" type="text" id="descricao" placeholder={props.atualizaProd.descricao} onChange={e => handleChange(e)} />
                     {errors.descricao && <p className="error-input">{errors.descricao}</p>}
 
                     <label for="img">Imagem</label>
@@ -94,7 +91,7 @@ const NovoProduto = (props) => {
                     {errors.img && <p className="error-input">{errors.img}</p>}
 
                     <label for="categoria">Categoria</label>
-                    <input name="categoria" type="text" id="categoria" onChange={e => handleChange(e)} />
+                    <input name="categoria" type="text" id="categoria" placeholder={props.atualizaProd.categoria} onChange={e => handleChange(e)} />
                     {errors.categoria && <p className="error-input">{errors.categoria}</p>}
 
                     <button className="submit">Enviar</button>
@@ -104,5 +101,4 @@ const NovoProduto = (props) => {
     )
 }
 
-
-export default NovoProduto;
+export default AlterarProduto;
