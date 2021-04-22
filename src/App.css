@@ -49,7 +49,28 @@
 .Destaque .Produtos  {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+}
+.Destaque h1 {
+  text-align: center;
+  
+}
 
+.Destaque h3 {
+  padding-top: 15px;
+}
+
+.Destaque .produto {
+  background-color: #d3d3d3;
+  border-radius: 20px;
+  margin: 0px 30px;
+}
+
+.Destaque .Info {
+  border-radius: 10px;
+  background-color: #282c34;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 25px ;
 }
 
 .Cabecalho img {
@@ -58,6 +79,13 @@
 
 .Destaque img {
   width: 300px;
+  padding: 20px;
+}
+
+.Destaque .comprar {
+  border-radius: 10px;
+  background-color: red;
+  width: 100px;
 }
 
 .lista .produtos {
@@ -70,8 +98,8 @@
 }
 
 .Carrinho {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  display: flex;
+  justify-content: center;
 }
 
 .Carrinho img {
@@ -80,8 +108,20 @@
 
 .tabela {
   align-items: center;
+  
 }
 
 .tabela img {
 width: 150px;
+}
+
+.lista .produto {
+  background-color: #d3d3d3;
+  border-radius: 20px;
+  margin: 0px 30px;
+}
+
+.select {
+  float: right;
+  margin: 15px 0px;
 }

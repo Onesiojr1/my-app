@@ -66,7 +66,7 @@ const NovoProduto = (props) => {
 
             const novoProduto = await response.json()
             setForm({ formSent: true, nome: '', preco: '', descricao: '', img: '', categoria: '' });
-            props.setProdutos([...props.produtos, novoProduto ]);
+            props.setProdutos([...props.produtos, novoProduto]);
         } catch (error) {
             console.log(error);
         }
@@ -76,28 +76,44 @@ const NovoProduto = (props) => {
     return (
         <div>
             {!form.formSent ?
-                <form className="formulario" onSubmit={e => handleSubmit(e)}>
-                    <label for="nome">Nome</label>
-                    <input name="nome" type="text" id="nome" onChange={e => handleChange(e)} />
-                    {errors.nome && <p className="error-input">{errors.nome}</p>}
+                <form className="formulario" class="center-block" onSubmit={e => handleSubmit(e)}>
+                    <div class="row justify-content-center">
+                        <div class="form-group col-4">
+                            <label for="nome">Nome</label>
+                            <input name="nome" type="text" id="nome" class="form-control" onChange={e => handleChange(e)} />
+                            {errors.nome && <p className="error-input">{errors.nome}</p>}
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="form-group col-4">
+                            <label for="preco">Preço</label>
+                            <input name="preco" type="number" id="preco" class="form-control" step="0.01" onChange={e => handleChange(e)} />
+                            {errors.preco && <p className="error-input">{errors.preco}</p>}
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="form-group col-4">
+                            <label for="descricao">Descrição</label>
+                            <input name="descricao" type="text" id="descricao" class="form-control" onChange={e => handleChange(e)} />
+                            {errors.descricao && <p className="error-input">{errors.descricao}</p>}
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="form-group col-4">
+                            <label for="img">Imagem</label>
+                            <input name="img" type="file" class="form-control-file" id="img" onChange={e => handleImg(e)} />
+                            {errors.img && <p className="error-input">{errors.img}</p>}
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="form-group col-4">
+                            <label for="categoria">Categoria</label>
+                            <input name="categoria" type="text" id="categoria" class="form-control" onChange={e => handleChange(e)} />
+                            {errors.categoria && <p className="error-input">{errors.categoria}</p>}
+                        </div>
+                    </div>
 
-                    <label for="preco">Preço</label>
-                    <input name="preco" type="number" id="preco" onChange={e => handleChange(e)} />
-                    {errors.preco && <p className="error-input">{errors.preco}</p>}
-
-                    <label for="descricao">Descrição</label>
-                    <input name="descricao" type="text" id="descricao" onChange={e => handleChange(e)} />
-                    {errors.descricao && <p className="error-input">{errors.descricao}</p>}
-
-                    <label for="img">Imagem</label>
-                    <input name="img" type="file" id="img" onChange={e => handleImg(e)} />
-                    {errors.img && <p className="error-input">{errors.img}</p>}
-
-                    <label for="categoria">Categoria</label>
-                    <input name="categoria" type="text" id="categoria" onChange={e => handleChange(e)} />
-                    {errors.categoria && <p className="error-input">{errors.categoria}</p>}
-
-                    <button className="submit">Enviar</button>
+                    <button type="submit" class="btn btn-success" >Enviar</button>
                 </form> : <h1>Formulario Enviado!</h1>
             }
         </div>

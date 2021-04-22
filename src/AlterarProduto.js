@@ -49,7 +49,7 @@ const AlterarProduto = (props) => {
     async function sendData() {
         try {
             const formData = new FormData();
-            if (formImg != null) { formData.append('img', formImg) } else {formData.append('img', null)}
+            if (formImg != null) { formData.append('img', formImg) } else { formData.append('img', null) }
 
             for (const [chave, valor] of Object.entries(form)) {
                 formData.append(chave, valor)
@@ -71,30 +71,46 @@ const AlterarProduto = (props) => {
     }
 
     return (
-        <div>
+        <div class="col align-self-center">
             {!form.formSent ?
-                <form className="formulario" onSubmit={e => handleSubmit(e)}>
-                    <label for="nome">Nome</label>
-                    <input name="nome" type="text" id="nome" placeholder={props.atualizaProd.nome} onChange={e => handleChange(e)} />
-                    {errors.nome && <p className="error-input">{errors.nome}</p>}
+                <form className="formulario" class="center-block" onSubmit={e => handleSubmit(e)}>
+                    <div class="row justify-content-center">
+                        <div class="form-group col-4">
+                            <label for="nome">Nome</label>
+                            <input name="nome" type="text" id="nome" class="form-control" placeholder={props.atualizaProd.nome} onChange={e => handleChange(e)} />
+                            {errors.nome && <p className="error-input">{errors.nome}</p>}
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                    <div class="form-group col-4">
+                        <label for="preco">Preço</label>
+                        <input name="preco" type="number" id="preco" class="form-control" step="0.01" placeholder={props.atualizaProd.preco} onChange={e => handleChange(e)} />
+                        {errors.preco && <p className="error-input">{errors.preco}</p>}
+                    </div>
+                    </div>
+                    <div class="row justify-content-center">
+                    <div class="form-group col-4">
+                        <label for="descricao">Descrição</label>
+                        <input name="descricao" type="text" id="descricao" class="form-control" placeholder={props.atualizaProd.descricao} onChange={e => handleChange(e)} />
+                        {errors.descricao && <p className="error-input">{errors.descricao}</p>}
+                    </div>
+                    </div>
+                    <div class="row justify-content-center">
+                    <div class="form-group col-4">
+                        <label for="img">Imagem</label>
+                        <input name="img" type="file" class="form-control-file" id="img" onChange={e => handleImg(e)} />
+                        {errors.img && <p className="error-input">{errors.img}</p>}
+                    </div>
+                    </div>
+                    <div class="row justify-content-center">
+                    <div class="form-group col-4">
+                        <label for="categoria">Categoria</label>
+                        <input name="categoria" type="text" id="categoria" class="form-control" placeholder={props.atualizaProd.categoria} onChange={e => handleChange(e)} />
+                        {errors.categoria && <p className="error-input">{errors.categoria}</p>}
+                    </div>
+                    </div>
 
-                    <label for="preco">Preço</label>
-                    <input name="preco" type="number" id="preco" placeholder={props.atualizaProd.preco} onChange={e => handleChange(e)} />
-                    {errors.preco && <p className="error-input">{errors.preco}</p>}
-
-                    <label for="descricao">Descrição</label>
-                    <input name="descricao" type="text" id="descricao" placeholder={props.atualizaProd.descricao} onChange={e => handleChange(e)} />
-                    {errors.descricao && <p className="error-input">{errors.descricao}</p>}
-
-                    <label for="img">Imagem</label>
-                    <input name="img" type="file" id="img" onChange={e => handleImg(e)} />
-                    {errors.img && <p className="error-input">{errors.img}</p>}
-
-                    <label for="categoria">Categoria</label>
-                    <input name="categoria" type="text" id="categoria" placeholder={props.atualizaProd.categoria} onChange={e => handleChange(e)} />
-                    {errors.categoria && <p className="error-input">{errors.categoria}</p>}
-
-                    <button className="submit">Enviar</button>
+                    <button type="submit" class="btn btn-success" >Enviar</button>
                 </form> : <h1>Formulario Enviado!</h1>
             }
         </div>

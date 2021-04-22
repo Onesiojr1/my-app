@@ -11,13 +11,13 @@ import AlterarProduto from "./AlterarProduto";
 
 function App() {
 
+
   const [carrinho, setCarrinho] = useState([]);
   const [produtos, setProdutos] = useState([]);
   const [ordenacao, setOrdenacao] = useState('crescente');
   const [termoBusca, setTermoBusca] = useState("");
   const [pedido, setPedido] = useState([]);
   const [atualizaProd, setAtualizaProd] =useState([]);
-
 
   useEffect(() => {
     fetch("http://localhost:9000/produtos")
@@ -79,7 +79,6 @@ function App() {
 
   }
 
-  // const teste = null;
   function atualizarProduto(produto) {
     setAtualizaProd(produto);
   }

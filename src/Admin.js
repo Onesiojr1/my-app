@@ -3,23 +3,33 @@ import { Link } from 'react-router-dom';
 
 const Admin = (props) => {
 
+    const styleCor = {
+        color: 'white'
+    }
 
 
 
     return <div>
-        <Link to="/NovoProduto">Criar Novo Produto</Link>
-        <table>
-            {props.produtos.map(produto => (
+        <table class="table table-bordered">
+            <thead>
                 <tr>
-                    <div key={produto._id}>
-                        <td><h3>{produto.nome}</h3></td>
-                        <td><Link to={`/update/${produto._id}`} onClick={() => props.atualizarProduto(produto)}>Editar</Link></td>
-                        <td><div onClick={() => props.remove(produto._id)}>Deletar</div></td>
-                    </div>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Editar</th>
+                    <th scope="col">Excluir</th>
                 </tr>
-            ))}
+            </thead>
+            <tbody>
+                {props.produtos.map(produto => (
+                    <tr key={produto._id}>
+                        <th scope="row"><h3>{produto.nome}</h3></th>
+                        <td><button type="button" class="btn btn-primary"><Link to={`/update/${produto._id}`} onClick={() => props.atualizarProduto(produto)} style={styleCor}>Editar</Link></button></td>
+                        <td ><button type="button" class="btn btn-danger" onClick={() => props.remove(produto._id)}>Deletar</button></td>
+                    </tr>
+                ))}
+            </tbody>
         </table>
-    </div>
+        <button type="button" class="btn btn-success"><Link to="/NovoProduto" style={styleCor}>Criar Novo Produto</Link></button>
+    </div >
 }
 
 export default Admin;
